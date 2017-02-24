@@ -56,7 +56,8 @@
     "request-promise": "1.x",
     "source-map-support": "0.x",
     "teen_process": "1.x",
-    "winston": "2.x"
+    "winston": "2.x",
+    "fs-extra": "^1.x"
   },
   "scripts": {
     "prepublish": "gulp prepublish",
