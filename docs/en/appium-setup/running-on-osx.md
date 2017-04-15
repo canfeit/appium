@@ -25,7 +25,7 @@ Appium on OS X supports iOS and Android testing.
   Otherwise, Appium won't know which one to use.
 * In iOS 8, devices each have their own setting which enables or disables
   UIAutomation. It lives in a "Developer" view in the Settings app. You need to
-  verify that UIAutomaion is enabled in this view before the simulator or
+  verify that UIAutomation is enabled in this view before the simulator or
   device can be automated.
 
 ### Authorizing iOS on the computer
@@ -66,8 +66,15 @@ manager:
 brew install carthage
 ```
 
+### Testing Mac apps
 
+Currently, the Mac app driver for appium does not ship with the AppiumForMac binary, which means, in order to automate Mac apps you must manually install the AppiumForMac application and grant it the appropriate OS X Accessibility permissions.
 
+To Install Appium for Mac:
+1. [Download a release](https://github.com/appium/appium-for-mac/releases/tag/0.2.0) and unzip the application into your `/Applications` folder
+2. Follow the [brief supplemental installation instructions](https://github.com/appium/appium-for-mac#installation) to enable appium to have access to OS X's Accessibility APIs
+
+For more information on using Appium for mac, checkout the [docs](https://github.com/appium/appium-for-mac#appium-for-mac).
 
 ### System setup (Android)
 
