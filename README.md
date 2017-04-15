@@ -10,7 +10,7 @@
 
 [![Build Status](https://team-appium.ci.cloudbees.com/job/Appium/badge/icon)](https://team-appium.ci.cloudbees.com/job/Appium/)
 
-Appium is an open source, cross-platform test automation tool for native, hybrid and mobile web apps, tested on simulators (iOS), emulators (Android), and real devices (iOS, Android, Windows).
+Appium is an open source, cross-platform test automation tool for native, hybrid and mobile web and desktop apps, tested on simulators (iOS), emulators (Android), and real devices (iOS, Android, Windows, Mac).
 
 
 ### Supported Platforms
@@ -18,6 +18,7 @@ Appium is an open source, cross-platform test automation tool for native, hybrid
 * iOS
 * Android
 * Windows
+* Mac
 
 See the [platform support doc](/docs/en/appium-setup/platform-support.md) for more detailed information.
 
@@ -82,6 +83,11 @@ You also need to download the Appium client for your language so you can write t
 * Windows 10
 * [Documentation](/docs/en/appium-setup/running-on-windows.md)
 
+#### Mac Requirements
+
+* Mac OS X 10.7 +
+* [Documentation](https://github.com/penguinho/appium/blob/mac-driver/docs/en/appium-setup/running-on-osx.md#testing-mac-apps)
+
 ### Quick Start
 
 Kick up an Appium server, and then run a test written in your favorite [WebDriver](https://w3c.github.io/webdriver/webdriver-spec.html)-compatible language!
@@ -103,7 +109,7 @@ $ appium-doctor
 
 #### Using the Appium Desktop App
 
-* [Download the Appium app](https://bitbucket.org/appium/appium.app/downloads/)
+* [Download the Appium app](https://www.github.com/appium/appium-desktop/releases/latest/)
 * Run it!
 
 ### Writing Tests for Appium
