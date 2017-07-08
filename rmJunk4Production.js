@@ -2,8 +2,10 @@
  * Created by yxin on 7/2/2017.
  */
 const fs = require('fs-extra');
+var glob = require("glob");
+
 path='.';
-list = ['READEME.md','readme.md', 'test', 'doc', 'docs', 'license', 'LICENSE'];
+list = ['.*','*.md', 'test', 'doc', 'docs', 'license', 'LICENSE'];
 
 function start(path) {
     del(path);
@@ -21,9 +23,11 @@ function start(path) {
 function del(path) {
     list.forEach(name => {
         let pa = path+`/${name}`;
-        if (fs.existsSync(pa)) {
-            fs.removeSync(pa);
-        }
+        let matchList = glob.sync(pa);
+        // console.log(matchList);
+        matchList.forEach(file => {
+            fs.removeSync(file);
+        })
     });
 }
 
