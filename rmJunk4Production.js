@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 var glob = require("glob");
 
 path='.';
-list = ['.*','*.md', 'test', 'doc', 'docs', 'license', 'LICENSE'];
+list = ['.*','*.md','*.pdf', 'test', 'doc', 'docs', 'license', 'LICENSE'];
 
 function start(path) {
     del(path);
