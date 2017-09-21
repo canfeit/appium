@@ -1,10 +1,41 @@
-## Appium server capabilities
+## Appium Desired Capabilities
 
-<expand_table>
+Desired Capabilities are keys and values encoded in a JSON object, sent by
+Appium clients to the server when a new automation session is requested. They
+tell the Appium drivers all kinds of important things about how you want your
+test to work. Each Appium client builds capabilities in a way specific to the
+client's language, but at the end of the day, they are sent over to Appium as
+JSON objects.
+
+Some important capabilities are demonstrated in the following example:
+
+```json
+{
+    "platformName": "iOS",
+    "platformVersion": "11.0",
+    "deviceName": "iPhone 7",
+    "automationName": "XCUITest",
+    "app": "/path/to/my.app"
+}
+```
+
+This set of Desired Capabilities expresses the desire for Appium to begin an
+automation session on an iPhone 7 simulator with iOS 11, using the [XCUITest
+Driver](/docs/en/drivers/ios-xcuitest.md), with `/path/to/my.app` as the app
+under test.
+
+There are many, many Capabilities that Appium supports. Capabilities also
+differ by driver, though there are a standard set that most drivers pay
+attention to. What follows are a series of tables outlining the various Desired
+Capabilities available in general and for specific drivers.
+
+### General Capabilities
+
+These Capabilities span multiple drivers.
 
 |Capability|Description|Values|
 |----|-----------|-------|
-|`automationName`|Which automation engine to use|`Appium` (default) or `Selendroid`|
+|`automationName`|Which automation engine to use|`Appium` (default) or `Selendroid` or `UiAutomator2` or `Espresso` for Android or `XCUITest` for iOS or `YouiEngine` for application built with You.i Engine|
 |`platformName`|Which mobile OS platform to use|`iOS`, `Android`, or `FirefoxOS`|
 |`platformVersion`|Mobile OS version|e.g., `7.1`, `4.4`|
 |`deviceName`|The kind of mobile device or emulator to use|`iPhone Simulator`, `iPad Simulator`, `iPhone Retina 4-inch`, `Android Emulator`, `Galaxy S4`, etc.... On iOS, this should be one of the valid devices returned by instruments with `instruments -s devices`. On Android this capability is currently ignored, though it remains required.|
@@ -16,27 +47,31 @@
 |`udid`| Unique device identifier of the connected physical device|e.g. `1ae203187fc012g`|
 |`orientation`| (Sim/Emu-only) start in a certain orientation|`LANDSCAPE` or `PORTRAIT`|
 |`autoWebview`| Move directly into Webview context. Default `false`|`true`, `false`|
-|`noReset`|Don't reset app state before this session. Default `false`|`true`, `false`|
-|`fullReset`|(iOS) Delete the entire simulator folder. (Android) Reset app state by uninstalling app instead of clearing app data. On Android, this will also remove the app after the session is complete. Default `false`|`true`, `false`|
-|`eventTimings`|Enable or disable the reporting of the timings for various Appium-internal events (e.g., the start and end of each command, etc.). Defaults to `false`. To enable, use `true`. The timings are then reported as `events` property on response to querying the current session.|e.g., `true`|
+|`noReset`| Don't reset app state before this session. See [here](/docs/en/writing-running-appium/reset-strategies.md) for more details  |`true`, `false`|
+|`fullReset`| Perform a complete reset. See [here](/docs/en/writing-running-appium/reset-strategies.md) for more details |`true`, `false`|
+|`eventTimings`|Enable or disable the reporting of the timings for various Appium-internal events (e.g., the start and end of each command, etc.). Defaults to `false`. To enable, use `true`. The timings are then reported as `events` property on response to querying the current session. See the [event timing docs](/docs/en/advanced-concepts/event-timings.md) for the the structure of this response.|e.g., `true`|
+|`enablePerformanceLogging`| (Web and webview only) Enable Chromedriver's (on Android) or Safari's (on iOS) performance logging (default `false`)| `true`, `false`|
 
 ### Android Only
 
-<expand_table>
+These Capabilities are available only on Android-based drivers (like
+[UiAutomator2](/docs/en/drivers/android-uiautomator2.md) for example).
 
 |Capability|Description|Values|
 |----|-----------|-------|
 |`appActivity`| Activity name for the Android activity you want to launch from your package. This often needs to be preceded by a `.` (e.g., `.MainActivity` instead of `MainActivity`)|`MainActivity`, `.Settings`|
 |`appPackage`| Java package of the Android app you want to run|`com.example.android.myApp`, `com.android.settings`|
-|`appWaitActivity`| Activity name for the Android activity you want to wait for|`SplashActivity`|
+|`appWaitActivity`| Activity name/names, comma separated, for the Android activity you want to wait for|`SplashActivity`, `SplashActivity,OtherActivity`, `*`, `*.SplashActivity`|
 |`appWaitPackage`| Java package of the Android app you want to wait for|`com.example.android.myApp`, `com.android.settings`|
 |`appWaitDuration`| Timeout in milliseconds used to wait for the appWaitActivity to launch (default `20000`)| `30000`|
 |`deviceReadyTimeout`| Timeout in seconds while waiting for device to become ready|`5`|
 |`androidCoverage`| Fully qualified instrumentation class. Passed to -w in adb shell am instrument -e coverage true -w | `com.my.Pkg/com.my.Pkg.instrumentation.MyInstrumentation`|
-|`enablePerformanceLogging`| (Chrome and webview only) Enable Chromedriver's performance logging (default `false`)| `true`, `false`|
+|`androidCoverageEndIntent`| A broadcast action implemented by yourself which is used to dump coverage into file system. Passed to -a in adb shell am broadcast -a | `com.example.pkg.END_EMMA`|
 |`androidDeviceReadyTimeout`|Timeout in seconds used to wait for a device to become ready after booting|e.g., `30`|
 |`androidInstallTimeout`|Timeout in milliseconds used to wait for an apk to install to the device. Defaults to `90000` |e.g., `90000`|
+|`androidInstallPath`| The name of the directory on the device in which the apk will be push before install. Defaults to `/data/local/tmp` |e.g. `/sdcard/Downloads/`|
 |`adbPort`|Port used to connect to the ADB server (default `5037`)|`5037`|
+|`remoteAdbHost`|Optional remote ADB server host|e.g.: 192.168.0.101|
 |`androidDeviceSocket`|Devtools socket name. Needed only when tested app is a Chromium embedding browser. The socket is open by the browser and Chromedriver connects to it as a devtools client.|e.g., `chrome_devtools_remote`|
 |`avd`| Name of avd to launch|e.g., `api19`|
 |`avdLaunchTimeout`| How long to wait in milliseconds for an avd to launch and connect to ADB (default `120000`)| `300000`|
@@ -64,10 +99,15 @@
 |`nativeWebScreenshot`| In a web context, use native (adb) method for taking a screenshot, rather than proxying to ChromeDriver. Defaults to `false` | `true` or `false`|
 |`androidScreenshotPath`| The name of the directory on the device in which the screenshot will be put. Defaults to `/data/local/tmp` |e.g. `/sdcard/screenshots/`|
 |`autoGrantPermissions`|Have Appium automatically determine which permissions your app requires and grant them to the app on install. Defaults to `false`|`true` or `false`|
+|`networkSpeed`|Set the network speed emulation. Specify the maximum network upload and download speeds. Defaults to `full`| `['full','gsm', 'edge', 'hscsd', 'gprs', 'umts', 'hsdpa', 'lte', 'evdo']` Check [-netspeed option](https://developer.android.com/studio/run/emulator-commandline.html) more info about speed emulation for avds|
+|`gpsEnabled`|Toggle gps location provider for emulators before starting the session. By default the emulator will have this option enabled or not according to how it has been provisioned.|`true` or `false`|
+|`isHeadless`|Set this capability to `true` to run the Emulator headless when device display is not needed to be visible. `false` is the default value. _isHeadless_ is also support for iOS, check XCUITest-specific capabilities. |e.g., `true`|
 
 ### iOS Only
 
-<expand_table>
+These Capabilities are available only on the [XCUITest
+Driver](/docs/en/drivers/ios-xcuitest.md) and the deprecated [UIAutomation
+Driver](/docs/en/drivers/ios-uiautomation.md).
 
 |Capability|Description|Values|
 |----|-----------|-------|
@@ -96,27 +136,12 @@
 |`webviewConnectRetries`| Number of times to send connection message to remote debugger, to get webview. Default: `8` |e.g., `12`|
 |`appName`| The display name of the application under test. Used to automate backgrounding the app in iOS 9+.|e.g., `UICatalog`|
 |`customSSLCert`|(Sim/Emu-only) Add an SSL certificate to simulator. | e.g. <br/>`-----BEGIN CERTIFICATE-----MIIFWjCCBEKg...`<br/>`-----END CERTIFICATE-----`|
-
+|`webkitResponseTimeout`|(Real device only) Set the time, in ms, to wait for a response from WebKit in a Safari session. Defaults to `5000`|e.g., `10000`|
 
 ### iOS Only, using XCUITest
 
-(For XCUITest-specific capabilities, please refer to the documentation on the [XCUITest driver](https://github.com/appium/appium-xcuitest-driver#desired-capabilities) itself.)
+(For XCUITest-specific capabilities, please refer to the documentation on the [XCUITest Driver repo](https://github.com/appium/appium-xcuitest-driver#desired-capabilities) itself.)
 
 ### You.i Engine Only
 
-<expand_table>
-
-|Capability|Description|Values|
-|----|-----------|-------|
-|`youiEngineAppAddress`| The IP address of the device on which the app is running. Use `localhost` for simulator.
-Use device’s IP address for a real device. |e.g. `localhost` or `192.168.1.203`|
-
-### WinAppDriver Only
-
-<expand_table>
-
-|Capability|Description|Values|
-|----|-----------|-------|
-|`platformName`| Which platform the test is being done on |e.g. `Windows`|
-|`deviceName`| The name of the device being tested on | e.g. `WindowsPC`|
-|`app`| appID of the windows app for testing or the path to the .exe file. See [this page](/docs/en/writing-running-appium/windows-app-testing.md) for details on how to find the appID | e.g. `c24c8163-548e-4b84-a466-530178fc0580_scyf5npe3hv32!App`|
+(For You.i Engine-specific capabilities, please refer to the documentation on the [You.i Engine driver](https://github.com/YOU-i-Labs/appium-youiengine-driver#desired-capabilities) itself.)

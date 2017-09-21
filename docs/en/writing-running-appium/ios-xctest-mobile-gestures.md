@@ -31,8 +31,8 @@ coordinates and duration.
 // Java
 JavascriptExecutor js = (JavascriptExecutor) driver;
 Map<String, Object> params = new HashMap<>();
-scrollObject.put("direction", "down");
-scrollObject.put("element", ((RemoteWebElement) element).getId());
+params.put("direction", "down");
+params.put("element", ((RemoteWebElement) element).getId());
 js.executeScript("mobile: swipe", params);
 ```
 
@@ -111,6 +111,28 @@ driver.execute('mobile: doubleTap', {element: element.value.ELEMENT});
 ```
 
 
+### mobile: touchAndHold
+
+Performs long press gesture on the given element or on the screen.
+
+#### Supported arguments
+
+ * _element_: The internal element identifier (as hexadecimal hash string) to long tap on
+ * _duration_: The float duration of press action in seconds. Mandatory patameter
+ * _x_: Screen x long tap coordinate of type float. Mandatory parameter only if _element_ is not set
+ * _y_: Screen y long tap coordinate of type float. Mandatory parameter only if _element_ is not set
+
+#### Usage examples
+
+```csharp
+// c#
+Dictionary<string, object> tfLongTap = new Dictionary<string, object>();
+tfLongTap.Add("element", element.Id);
+tfLongTap.Add("duration", 2.0);
+((IJavaScriptExecutor)driver).ExecuteScript("mobile: touchAndHold", tfLongTap);
+```
+
+
 ### mobile: twoFingerTap
 
 Performs two finger tap gesture on the given element or on the application element.
@@ -127,7 +149,7 @@ Performs two finger tap gesture on the given element or on the application eleme
 // c#
 Dictionary<string, object> tfTap = new Dictionary<string, object>();
 tfTap.Add("element", element.Id);
-((IJavaScriptExecutor)driver).ExecuteScript("mobile: twoFingerTap", tfTap));
+((IJavaScriptExecutor)driver).ExecuteScript("mobile: twoFingerTap", tfTap);
 ```
 
 
@@ -198,6 +220,11 @@ one to select or value selection does not work because of XCTest bug.
  value selection on. The element must be of type XCUIElementTypePickerWheel. Mandatory parameter
  * _order_: Either _next_ to select the value next to the current one
  from the target picker wheel or _previous_ to select the previous one. Mandatory parameter
+ * _offset_: The value in range [0.01, 0.5]. It defines how far from picker
+ wheel's center the click should happen. The actual distance is culculated by
+ multiplying this value to the actual picker wheel height. Too small offset value
+ may not change the picker wheel value and too high value may cause the wheel to switch
+ two or more values at once. Usually the optimal value is located in range [0.15, 0.3]. _0.2_ by default
 
 #### Usage examples
 
@@ -206,8 +233,29 @@ one to select or value selection does not work because of XCTest bug.
 JavascriptExecutor js = (JavascriptExecutor) driver;
 Map<String, Object> params = new HashMap<>();
 params.put("order", "next");
+params.put("offset", 0.15);
 params.put("element", ((RemoteWebElement) element).getId());
 js.executeScript("mobile: selectPickerWheelValue", params);
+```
+
+
+### mobile: alert
+
+Performs operations on NSAlert instance.
+
+#### Supported arguments
+
+ * _action_: The following actions are supported: _accept_, _dismiss_ and _getButtons_.
+ Mandatory parameter
+ * _buttonLabel_: The label text of an existing alert button to click on. This is an
+ optional parameter and is only valid in combination with _accept_ and _dismiss_
+ actions.
+
+#### Usage examples
+
+```python
+# Python
+driver.execute_script('mobile: alert', {'action': 'accept', 'buttonLabel': 'My Cool Alert Button'});
 ```
 
 
