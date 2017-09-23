@@ -53,14 +53,15 @@
     "bluebird": "2.x",
     "continuation-local-storage": "3.x",
     "dateformat": "^2.0.0",
+    "emailjs-utf7": "^3.0.1",
+    "fs-extra": "^1.x",
     "lodash": "4.x",
     "npmlog": "2.x",
     "request": "^2.81.0",
     "request-promise": "1.x",
     "source-map-support": "0.x",
     "teen_process": "1.x",
-    "winston": "2.x",
-    "fs-extra": "^1.x"
+    "winston": "2.x"
   },
   "scripts": {
     "prepublish": "gulp prepublish",
