@@ -25,5 +25,7 @@ mv ./node_modules/appium-ios-driver/node_modules ../appium-ios-driver
 rm -rf ./node_modules/appium-ios-driver
 mv ../appium-ios-driver ./node_modules
 
+rm -rf ../appium-xcuitest-driver/node_modules
+mv ./node_modules/appium-xcuitest-driver/node_modules ../appium-xcuitest-driver
 rm -rf ./node_modules/appium-xcuitest-driver
 mv ../appium-xcuitest-driver ./node_modules
